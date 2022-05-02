@@ -1,3 +1,7 @@
+<?php
+include('connect.php');
+?>
+<?php if (!$_POST) { ?>
 <html lang="en">
 <head>
 	<title>User Authentication App</title>
@@ -21,30 +25,45 @@
 <!--===============================================================================================-->
 </head>
 <body>
-	
 
-	<div class="limiter" id='sign_up'>
+	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
 				<div class="login100-pic js-tilt" data-tilt>
 					<img src="images/img-01.png" alt="IMG">
 				</div>
 
-				<form class="login100-form validate-form">
+				<form class="login100-form validate-form" method="post">
 					<span class="login100-form-title">
 						Member Sign-Up
 					</span>
 
-					<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
-						<input class="input100" type="text" name="email" placeholder="Email">
+					<div class="wrap-input100 validate-input">
+						<input class="input100" type="text" name="name" placeholder="Name" id="name">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-user" aria-hidden="true"></i>
+						</span>
+					</div>
+
+					<div class="wrap-input100 validate-input">
+						<input class="input100" type="number" name="age" placeholder="Age" id="age">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-birthday-cake" aria-hidden="true"></i>
+						</span>
+					</div>
+
+					<div class="wrap-input100 validate-input">
+						<input class="input100" type="text" name="email" placeholder="Email" id="email">
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-envelope" aria-hidden="true"></i>
 						</span>
 					</div>
 
-					<div class="wrap-input100 validate-input" data-validate = "Password is required">
-						<input class="input100" type="password" name="pass" placeholder="Password">
+					<div class="wrap-input100 validate-input">
+						<input class="input100" type="password" name="pass" placeholder="Password" id="password">
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-lock" aria-hidden="true"></i>
@@ -88,3 +107,23 @@
 
 </body>
 </html>
+<?php
+} else{
+    // Storing post superglobal values as variables
+	$name = $_POST['name'];
+	$email = $_POST['email'];
+	$password = $_POST['pass'];
+	$age = $_POST['age'];
+
+	// Insert statement stored in a variable
+	$sql = "INSERT INTO users (user_name, user_email, user_password, user_age, user_role)
+	VALUES ('$name', '$email', '$password', $age, 'member')";// Inserting variable values as new records 
+
+	// Check whether insert was successful
+	if ($conn->query($sql) === TRUE) {
+	echo "New record created successfully";
+	} else {
+	echo "Error: " . $sql . "<br>" . $conn->error;
+	}
+}
+?>
