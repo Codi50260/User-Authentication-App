@@ -1,6 +1,6 @@
 Follow the instructions below to complete this project:
 
-•   The login section is split into three pages: sign-in page, sign up page and the forgot password page.
+✓   The login section is split into three pages: sign-in page, sign up page and the forgot password page.
 
 •   Ensure that clients don't have access to any other page on the app unless they are signed in
 
