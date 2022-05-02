@@ -1,3 +1,6 @@
+<?php
+include('connect.php');
+?>
 <html lang="en">
 <head>
 	<title>User Authentication App</title>
@@ -22,7 +25,7 @@
 </head>
 <body>
 
-	<div class="limiter" id='forgot_password'>
+	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
 				<div class="login100-pic js-tilt" data-tilt>
