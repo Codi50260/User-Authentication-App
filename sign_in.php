@@ -2,14 +2,11 @@
 include('connect.php');
 
 $sql = "SELECT user_email, user_password FROM users";
-$result = $conn->query($sql);// Storing select query in a variable
+$result = $conn->query($sql);
 
 if($result){
-    // Check if rows exist in selected table
     if($result->num_rows > 0){
-        // Create an HTML table
-        while($row = $result->fetch_assoc()) {// Loop through the columns array
-            // Dispay the column names, using the array
+        while($row = $result->fetch_assoc()) {
 			$email = $row["user_email"];
 			$password = $row["user_password"];
         }
