@@ -4,13 +4,13 @@ Follow the instructions below to complete this project:
 
 •   Ensure that clients don't have access to any other page on the app unless they are signed in
 
-•   Create a database called library
+✓   Create a database called library
 
 •   Create a system to sign in users as members (that would be the regular library customers) and librarians. These should be two separate types of users – basically user roles. You'll receive more instructions about what these roles should do.
 
-•   Create a table called books and have it filled with the following fields: book id, book name, year, genre and age group.
+✓   Create a table called books and have it filled with the following fields: book id, book name, year, genre and age group.
 
-•   Create a table called authors and have it filled with the following fields: author id, author name, age, genre and book id.
+✓   Create a table called authors and have it filled with the following fields: author id, author name, age, genre and book id.
 
 •   Display the list of books and their authors for all signed-in users.
 
