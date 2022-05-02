@@ -1,3 +1,23 @@
+<?php
+include('connect.php');
+
+$sql = "SELECT user_email, user_password FROM users";
+$result = $conn->query($sql);// Storing select query in a variable
+
+if($result){
+    // Check if rows exist in selected table
+    if($result->num_rows > 0){
+        // Create an HTML table
+        while($row = $result->fetch_assoc()) {// Loop through the columns array
+            // Dispay the column names, using the array
+			$email = $row["user_email"];
+			$password = $row["user_password"];
+        }
+    }
+} else {
+    echo "Error selecting table " . $conn->error;
+}
+?>
 <html lang="en">
 <head>
 	<title>User Authentication App</title>
@@ -19,39 +39,61 @@
 	<link rel="stylesheet" type="text/css" href="css/util.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 <!--===============================================================================================-->
+	<script>
+		function verify() {
+			bool1 = false
+			bool2 = false
+			var email = "<?php echo $email; ?>";
+			var password = "<?php echo $password; ?>";
+			if (email === document.getElementById("email").value){
+				bool1 = true;
+			}
+			if (password === document.getElementById("password").value){
+				bool2 = true;
+			}
+			if (bool1 && bool2){
+				document.getElementById("error").style.visibility = "hidden"
+				document.getElementById("form").submit();
+			} else {
+				document.getElementById("error").style.visibility = "visible"
+			}
+		}
+	</script>
 </head>
 <body>
 	
-	<div class="limiter" id='sign_in'>
+	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
 				<div class="login100-pic js-tilt" data-tilt>
 					<img src="images/img-01.png" alt="IMG">
 				</div>
 
-				<form class="login100-form validate-form">
+				<form class="login100-form validate-form" method="post" action="test.php" id="form">
 					<span class="login100-form-title">
 						Member Login
 					</span>
 
-					<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
-						<input class="input100" type="text" name="email" placeholder="Email">
+					<div class="wrap-input100 validate-input">
+						<input class="input100" type="text" name="email" placeholder="Email" id="email">
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-envelope" aria-hidden="true"></i>
 						</span>
 					</div>
 
-					<div class="wrap-input100 validate-input" data-validate = "Password is required">
-						<input class="input100" type="password" name="pass" placeholder="Password">
+					<div class="wrap-input100 validate-input">
+						<input class="input100" type="password" name="pass" placeholder="Password" id="password">
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-lock" aria-hidden="true"></i>
 						</span>
 					</div>
-					
+
+					<p class="tooltiptext" id="error" style="visibility: hidden; color: #D8000C; background-color: #FFBABA; text-align: center; border-radius: 25px;">Email or Password Incorrect</p>
+
 					<div class="container-login100-form-btn">
-						<button class="login100-form-btn">
+						<button type="button" class="login100-form-btn" onclick="verify()">
 							Login
 						</button>
 					</div>
