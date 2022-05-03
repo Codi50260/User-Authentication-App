@@ -52,7 +52,7 @@ include('connect.php');
 					</div>
 
 					<div class="text-center p-t-136">
-						<a class="txt2" href="sign_in.php">
+						<a class="txt2" href="index.php">
 							Back to Sign-In
 							<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
 						</a>
