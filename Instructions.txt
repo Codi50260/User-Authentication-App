@@ -12,7 +12,7 @@ Follow the instructions below to complete this project:
 
 ✓   Create a table called authors and have it filled with the following fields: author id, author name, age, genre and book id.
 
-•   Display the list of books and their authors for all signed-in users.
+✓   Display the list of books and their authors for all signed-in users.
 
 
 
@@ -22,7 +22,7 @@ Have a search bar feature on this app that searches through the database, as suc
 
 •   On the contrary, if a user role of librarian tries to search for an author, allow them to see the result of all the books by the same author.
 
-•   Allow for only librarian users to be able to add, delete, update (crud operations) on all tables but restrict a user with a role of member from doing this.
+✓   Allow for only librarian users to be able to add, delete, update (crud operations) on all tables but restrict a user with a role of member from doing this.
 
 •   Ensure that the search can find letters or words that are included in the respective tables, as well as, finds those that start with or end with the searched letter or word.
 
