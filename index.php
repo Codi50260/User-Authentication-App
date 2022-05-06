@@ -1,19 +1,29 @@
-<?php
+
+<!-- Add security question for forget_pass.php -->
+
+<?php session_start();
 include('connect.php');
+$_SESSION['boolen'] = FALSE;
 
 $sql = "SELECT user_email, user_password FROM users";
 $result = $conn->query($sql);
 
+$email = [];
+$password = [];
+
 if($result){
     if($result->num_rows > 0){
         while($row = $result->fetch_assoc()) {
-			$email = $row["user_email"];
-			$password = $row["user_password"];
+			array_push($email, $row["user_email"]);
+			array_push($password, $row["user_password"]);
         }
     }
 } else {
     echo "Error selecting table " . $conn->error;
 }
+
+var_dump($email);
+var_dump($password);
 ?>
 <html lang="en">
 <head>
@@ -40,19 +50,12 @@ if($result){
 		function verify() {
 			bool = false
 
-			email = "<?php echo $email ?>"
-			password = "<?php echo $password ?>"
+			var test_email = document.getElementById("email").value;
+			var test_pass = document.getElementById("password").value;
+			console.log(test_email)
+			console.log(test_pass)
 
-			console.log(email)
-			console.log(password)
-
-			if (email === document.getElementById("email").value){
-				if (password === document.getElementById("password").value){
-					bool = true;
-				}
-			}
-
-			if (bool){
+			if (bool == false){
 				document.getElementById("error").style.visibility = "hidden"
 				document.getElementById("form").submit();
 			} else {
@@ -70,7 +73,7 @@ if($result){
 					<img src="images/img-01.png" alt="IMG">
 				</div>
 
-				<form class="login100-form validate-form" method="post" action="library.php" id="form">
+				<form class="login100-form validate-form" method="post" action="library_member.php" id="form" name="search-theme-form">
 					<span class="login100-form-title">
 						Member Login
 					</span>
@@ -119,7 +122,6 @@ if($result){
 		</div>
 	</div>
 
-
 <!--===============================================================================================-->	
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
 <!--===============================================================================================-->
@@ -139,3 +141,34 @@ if($result){
 
 </body>
 </html>
+
+<?php
+
+// if ($_POST) {
+// 	$emailPost = $_POST['email'];
+// 	$passwordPost = $_POST['pass'];
+// 	$check1 = False;
+// 	$check2 = False;
+// 	$check3 = False;
+
+// 	for ($x = 0; $x < count($email); $x++) {
+// 		if ($emailPost == $email[$x]) {
+// 			$check1 = True;
+// 			$_SESSION['boolen'] = TRUE;
+// 		}
+// 		if ($passwordPost == $password[$x]) {
+// 			$check2 = True;
+// 			$_SESSION['boolen'] = TRUE;
+// 		}
+// 		if ($check1 && $check2) {
+// 			$check3 = True;
+// 		} else {
+// 			$check1 = False;
+// 			$check2 = False;
+// 		}
+// 	}
+// 	if ($check3 == True){
+// 		echo "User is valid";
+// 	}
+// }
+?>
