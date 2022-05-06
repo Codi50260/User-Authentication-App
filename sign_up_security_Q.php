@@ -120,7 +120,7 @@ $q3 = "Where did you meet your spouse?";
 	$email = $_SESSION['email'];
 	$password = $_SESSION['password'];
 
-	if (($question != '') or ($answer != '')){
+	if (($question != '') and ($answer != '')){
 		$sql = "INSERT INTO users (user_name, user_email, user_password, security_question, security_answer, user_role)
 		VALUES ('$name', '$email', '$password', '$question', '$answer', 'member')";
 
