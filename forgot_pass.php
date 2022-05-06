@@ -1,5 +1,7 @@
 <?php
 include('connect.php');
+session_start();
+$_SESSION['forgotHasPost'] = True;
 ?>
 <html lang="en">
 <head>
@@ -32,7 +34,7 @@ include('connect.php');
 					<img src="images/img-01.png" alt="IMG">
 				</div>
 
-				<form class="login100-form validate-form">
+				<form class="login100-form validate-form" method="post" action="forgot_pass_reset.php">
 					<span class="login100-form-title">
 						Forgot Password
 					</span>
@@ -46,8 +48,8 @@ include('connect.php');
 					</div>
 					
 					<div class="container-login100-form-btn">
-						<button class="login100-form-btn">
-							Reset Password
+						<button type='submit' class="login100-form-btn" onclick="window.location.href='forgot_pass_reset.php'">
+							Next
 						</button>
 					</div>
 
