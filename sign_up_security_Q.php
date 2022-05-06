@@ -1,8 +1,16 @@
 <?php
 include('connect.php');
 session_start();
-$_SESSION['hasPost'] = True;
+if ($_SESSION['hasPost'] == True){
+	$_SESSION['name'] = $_POST['name'];
+	$_SESSION['email'] = $_POST['email'];
+	$_SESSION['password'] = $_POST['pass'];
+}
+$q1 = "What year did you graduate?";
+$q2 = "What is the name of your first pet?";
+$q3 = "Where did you meet your spouse?";
 ?>
+<?php if ($_SESSION['hasPost'] == True){ $_SESSION['hasPost'] = False;?>
 <html lang="en">
 <head>
 	<title>User Authentication App</title>
@@ -33,29 +41,26 @@ $_SESSION['hasPost'] = True;
 					<img src="images/img-01.png" alt="IMG">
 				</div>
 
-				<form class="login100-form validate-form" method="post" action="sign_up_security_Q.php">
+				<form class="login100-form validate-form" method="post">
 					<span class="login100-form-title">
-						Member Sign-Up
+						Add Security Question
 					</span>
 
-					<div class="wrap-input100 validate-input" data-validate = "Name cannot be empty">
-						<input class="input100" type="text" name="name" placeholder=" Name" id="name">
+					<div class="wrap-input100 validate-input" data-validate = "Security Question cannot be empty">
+						<select class="input100" name="question" id="question" style="color: #999">
+							<option value="" disabled selected>Security Question</option>
+							<option value="<?php echo $q1?>"><?php echo $q1?></option>
+							<option value="<?php echo $q2?>"><?php echo $q2?></option>
+							<option value="<?php echo $q3?>"><?php echo $q3?></option>
+						</select>
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
-							<i class="fa fa-user" aria-hidden="true"></i>
+							<i class="fa fa-question" aria-hidden="true"></i>
 						</span>
 					</div>
 
-					<div class="wrap-input100 validate-input" data-validate = "Valid email is required: Mark@gmail.com">
-						<input class="input100" type="text" name="email" placeholder=" Email" id="email">
-						<span class="focus-input100"></span>
-						<span class="symbol-input100">
-							<i class="fa fa-envelope" aria-hidden="true"></i>
-						</span>
-					</div>
-
-					<div class="wrap-input100 validate-input" data-validate = "Password cannot be empty">
-						<input class="input100" type="password" name="pass" placeholder=" Password" id="password">
+					<div class="wrap-input100 validate-input" data-validate = "Answer cannot be empty">
+						<input class="input100" type="password" name="sec_pass" placeholder=" Security Answer" id="sec_pass">
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-lock" aria-hidden="true"></i>
@@ -64,7 +69,7 @@ $_SESSION['hasPost'] = True;
 					
 					<div class="container-login100-form-btn">
 						<button class="login100-form-btn">
-							Next
+							Create Account
 						</button>
 					</div>
 
@@ -99,3 +104,34 @@ $_SESSION['hasPost'] = True;
 
 </body>
 </html>
+<?php
+} else if ($_SESSION['hasPost'] == False){
+	if (($_POST["question"] == '') and ($_POST["sec_pass"] == '')){
+		header("Location: sign_up.php");
+		exit();
+	} else if (($_POST["question"] == '') or ($_POST["sec_pass"] == '')){
+		header("Location: sign_up.php");
+		exit();
+	} 
+
+	$question = $_POST["question"];
+	$answer = $_POST["sec_pass"];
+	$name = $_SESSION['name'];
+	$email = $_SESSION['email'];
+	$password = $_SESSION['password'];
+
+	if (($question != '') or ($answer != '')){
+		$sql = "INSERT INTO users (user_name, user_email, user_password, security_question, security_answer, user_role)
+		VALUES ('$name', '$email', '$password', '$question', '$answer', 'member')";
+
+		// Check whether insert was successful
+		if ($conn->query($sql) === TRUE) {
+		header("Location: Account_created.php");
+		exit();
+		} else {
+		echo "Error: " . $sql . "<br>" . $conn->error;
+		}
+		$_SESSION['hasPost'] = False;
+	}
+}
+?>
