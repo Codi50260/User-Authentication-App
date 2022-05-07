@@ -1,6 +1,7 @@
 <?php include('connect.php');
+    session_start();
 
-    $sql = "SELECT user_name FROM users";
+    $sql = "SELECT user_name, user_email, user_role FROM users";
     $sql2 = "SELECT book_name, year, genre, age_group FROM books";
     $sql3 = "SELECT author_name, age, genre, book_id FROM authors";
     $result = $conn->query($sql);
@@ -8,12 +9,12 @@
     $result3 = $conn->query($sql3);
 
     $name = [];
-
+    $email = [];
+    $role = [];
     $book_name = [];
     $year = [];
     $genre = [];
     $age_group = [];
-
     $author_name = [];
     $age = [];
     $genre_author = [];
@@ -23,6 +24,8 @@
         if($result->num_rows > 0){
             while($row = $result->fetch_assoc()) {
                 array_push($name, $row["user_name"]);
+                array_push($email, $row["user_email"]);
+                array_push($role, $row["user_role"]);
             }
         }
     } else {
@@ -51,6 +54,15 @@
         }
     } else {
         echo "Error selecting table " . $conn->error;
+    }
+
+    $asd = $_SESSION['email_sign_in'];
+    for ($p=0; $p < count($name); $p++) {
+        if ($asd == $email[$p]){
+            $userName = $name[$p];
+            $userRole = $role[$p];
+            $_SESSION['userName'] = $userName;
+        }
     }
 ?>
 
@@ -100,6 +112,8 @@
                 }).appendTo('.here');
             }
             function sortGenres(){
+                // let y = document.getElementsByClassName('sort-me');
+                // y[i].style.display="none";
                 for (let i=1; i < 10; i++) {
                     move(".".concat(i), ".t".concat(i));
                 }
@@ -133,14 +147,29 @@
                 input=input.toLowerCase();
                 let y = document.getElementsByClassName('sort-me');
                 let x = document.getElementsByClassName('search-here');
+                let z = document.getElementsByClassName('Notauthor');
                 
                 for (i = 0; i < x.length; i++) {
                     if (!x[i].innerHTML.toLowerCase().includes(input)) {
                         y[i].style.display="none";
+                    } else {
+                        y[i].style.display="inline-block";
                     }
-                    else {
-                        y[i].style.display="inline-block";				
-                    }
+
+                    // if (z[i].innerHTML.toLowerCase().includes(input)) {
+                    //     y[i].style.display="none";
+                    //     console.log("Author is here")
+                    // } else {
+                    //     y[i].style.display="inline-block";
+                    // }
+                }
+            }
+            function diffMode(){
+                var user_role = "<?php echo $userRole ?>"
+                if (user_role == 'librarian'){
+                    window.location.href = "library_librarian.php";
+                } else {
+                    document.getElementById("tooltip").style.visibility = "visible"
                 }
             }
         </script>
@@ -156,22 +185,16 @@
                         <div class="container">
                             <!-- Start: Search Section -->
                             <section class="search-filters">
-                                <div style="text-align: right;">
+                                <!-- <div style="text-align: right;">
                                     <button onclick="window.location.href='library_librarian.php'">Switch to Librarian mode:</button>
-                                </div>
+                                </div> -->
                                 <div class="filter-box">
-                                    <h3><?php echo "Welcome Back ".$name[0]."! <p></p>What are you looking for?";?></h3>
+                                    <h3><?php echo "Welcome Back ".$userName."! <p></p>What are you looking for?";?></h3>
                                     <form action="#" method="post" style="align-items: center;">
 
                                         <div class="col-md-4 col-sm-6">
                                             <div class="form-group">
                                                 <input class="form-control" id="searchbar" onkeyup="search_books()" type="text" name="search" placeholder="Search by Keyword">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-2 col-sm-6">
-                                            <div class="form-group">
-                                                <input class="form-control" type="submit" value="Search">
                                             </div>
                                         </div>
 
@@ -185,6 +208,13 @@
                                         <div class="col-md-2 col-sm-6">
                                             <div class="form-group">
                                                 <input class="form-control" type="button" value="Sort" onclick="sort()">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2 col-sm-6">
+                                            <div class="form-group">
+                                                <input class="form-control" type="button" value="Switch to Librarian mode:" onclick="diffMode()" style="width: 250px">
+                                                <span id="tooltip" style="visibility: hidden;width: 150px;background-color: red;color: #fff;text-align: center;border-radius: 6px;position: absolute;z-index: 1;top: 79%;left: 66%;margin-left: -60px;">Sorry, only Librarians can Access this</span>
                                             </div>
                                         </div>
                                     </form>
@@ -203,7 +233,7 @@
                                                     <h4 class="r1"></h4>
                                                     <h4 class="1"><?php echo $book_name[0]?></h4>
                                                     <p class="ar1"><strong></strong></p>
-                                                    <p class="a1"><strong>Author: </strong><?php echo $author_name[0]?></p>
+                                                    <p class="a1 Notauthor"><strong>Author: </strong><?php echo $author_name[0]?></p>
                                                     <p><strong>Genre: </strong><?php echo $genre[0]?></p>
                                                 </header>
                                                 <p>This book was written by <?php echo $author_name[0]?> on the <?php echo $year[0]?>. It is for the ages of <?php echo $age_group[0]?></p>
@@ -219,7 +249,7 @@
                                                     <h4 class="r2"></h4>
                                                     <h4 class="2"><?php echo $book_name[1]?></h4>
                                                     <p class="ar2"><strong></strong></p>
-                                                    <p class="a2"><strong>Author: </strong><?php echo $author_name[1]?></p>
+                                                    <p class="a2 Notauthor"><strong>Author: </strong><?php echo $author_name[1]?></p>
                                                     <p><strong>Genre: </strong><?php echo $genre[1]?></p>
                                                 </header>
                                                 <p>This book was written by <?php echo $author_name[1]?> on the <?php echo $year[1]?>. It is for the ages of <?php echo $age_group[1]?></p>
@@ -235,7 +265,7 @@
                                                     <h4 class="r3"></h4>
                                                     <h4 class="3"><?php echo $book_name[2]?></h4>
                                                     <p class="ar3"><strong></strong></p>
-                                                    <p class="a3"><strong>Author: </strong><?php echo $author_name[2]?></p>
+                                                    <p class="a3 Notauthor"><strong>Author: </strong><?php echo $author_name[2]?></p>
                                                     <p><strong>Genre: </strong><?php echo $genre[2]?></p>
                                                 </header>
                                                 <p>This book was written by <?php echo $author_name[2]?> on the <?php echo $year[2]?>. It is for the ages of <?php echo $age_group[2]?></p>
@@ -251,7 +281,7 @@
                                                     <h4 class="r4"></h4>
                                                     <h4 class="4"><?php echo $book_name[3]?></h4>
                                                     <p class="ar4"><strong></strong></p>
-                                                    <p class="a4"><strong>Author: </strong><?php echo $author_name[3]?></p>
+                                                    <p class="a4 Notauthor"><strong>Author: </strong><?php echo $author_name[3]?></p>
                                                     <p><strong>Genre: </strong><?php echo $genre[3]?></p>
                                                 </header>
                                                 <p>This book was written by <?php echo $author_name[3]?> on the <?php echo $year[3]?>. It is for the ages of <?php echo $age_group[3]?></p>
@@ -267,7 +297,7 @@
                                                     <h4 class="r5"></h4>
                                                     <h4 class="5"><?php echo $book_name[4]?></h4>
                                                     <p class="ar5"><strong></strong></p>
-                                                    <p class="a5"><strong>Author: </strong><?php echo $author_name[1]?></p>
+                                                    <p class="a5 Notauthor"><strong>Author: </strong><?php echo $author_name[1]?></p>
                                                     <p><strong>Genre: </strong><?php echo $genre[4]?></p>
                                                 </header>
                                                 <p>This book was written by <?php echo $author_name[1]?> on the <?php echo $year[4]?>. It is for the ages of <?php echo $age_group[4]?></p>
@@ -283,7 +313,7 @@
                                                     <h4 class="r6"></h4>
                                                     <h4 class="6"><?php echo $book_name[5]?></h4>
                                                     <p class="ar6"><strong></strong></p>
-                                                    <p class="a6"><strong>Author: </strong><?php echo $author_name[4]?></p>
+                                                    <p class="a6 Notauthor"><strong>Author: </strong><?php echo $author_name[4]?></p>
                                                     <p><strong>Genre: </strong><?php echo $genre[5]?></p>
                                                 </header>
                                                 <p>This book was written by <?php echo $author_name[4]?> on the <?php echo $year[5]?>. It is for the ages of <?php echo $age_group[5]?></p>
@@ -299,7 +329,7 @@
                                                     <h4 class="r7"></h4>
                                                     <h4 class="7"><?php echo $book_name[6]?></h4>
                                                     <p class="ar7"><strong></strong></p>
-                                                    <p class="a7"><strong>Author: </strong><?php echo $author_name[5]?></p>
+                                                    <p class="a7 Notauthor"><strong>Author: </strong><?php echo $author_name[5]?></p>
                                                     <p><strong>Genre: </strong><?php echo $genre[6]?></p>
                                                 </header>
                                                 <p>This book was written by <?php echo $author_name[5]?> on the <?php echo $year[6]?>. It is for the ages of <?php echo $age_group[6]?></p>
@@ -315,7 +345,7 @@
                                                     <h4 class="r8"></h4>
                                                     <h4 class="8"><?php echo $book_name[7]?></h4>
                                                     <p class="ar8"><strong></strong></p>
-                                                    <p class="a8"><strong>Author: </strong><?php echo $author_name[6]?></p>
+                                                    <p class="a8 Notauthor"><strong>Author: </strong><?php echo $author_name[6]?></p>
                                                     <p><strong>Genre: </strong><?php echo $genre[7]?></p>
                                                 </header>
                                                 <p>This book was written by <?php echo $author_name[6]?> on the <?php echo $year[7]?>. It is for the ages of <?php echo $age_group[7]?></p>
@@ -331,7 +361,7 @@
                                                     <h4 class="r9"></h4>
                                                     <h4 class="9"><?php echo $book_name[8]?></h4>
                                                     <p class="ar9"><strong></strong></p>
-                                                    <p class="a9"><strong>Author: </strong><?php echo $author_name[7]?></p>
+                                                    <p class="a9 Notauthor"><strong>Author: </strong><?php echo $author_name[7]?></p>
                                                     <p><strong>Genre: </strong><?php echo $genre[8]?></p>
                                                 </header>
                                                 <p>This book was written by <?php echo $author_name[7]?> on the <?php echo $year[8]?>. It is for the ages of <?php echo $age_group[8]?></p>
