@@ -130,6 +130,8 @@ if ($_POST){
 	$email = $_POST["email"];
 	$password = $_POST["pass"];
 
+	$_SESSION['email_sign_in'] = $email;
+
 	if (($email != '') and ($password != '')){
 		$userValid = mysqli_query($conn, "SELECT user_password, user_email FROM users WHERE (user_password = '".$_POST['pass']."' AND user_email = '".$_POST['email']."')");
 		if(mysqli_num_rows($userValid)) {
