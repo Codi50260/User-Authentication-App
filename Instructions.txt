@@ -2,11 +2,11 @@ Follow the instructions below to complete this project:
 
 ✓   The login section is split into three pages: sign-in page, sign up page and the forgot password page.
 
-•   Ensure that clients don't have access to any other page on the app unless they are signed in
+✓   Ensure that clients don't have access to any other page on the app unless they are signed in
 
 ✓   Create a database called library
 
-•   Create a system to sign in users as members (that would be the regular library customers) and librarians. These should be two separate types of users – basically user roles. You'll receive more instructions about what these roles should do.
+✓   Create a system to sign in users as members (that would be the regular library customers) and librarians. These should be two separate types of users – basically user roles. You'll receive more instructions about what these roles should do.
 
 ✓   Create a table called books and have it filled with the following fields: book id, book name, year, genre and age group.
 
@@ -20,18 +20,18 @@ Have a search bar feature on this app that searches through the database, as suc
 
 •  Make sure that all users that have the role of a member, should not be able to search for an author and have the list of books by this author (which can only be found in the author's table). In other words, members should not be able to search for an author.
 
-•   On the contrary, if a user role of librarian tries to search for an author, allow them to see the result of all the books by the same author.
+✓  On the contrary, if a user role of librarian tries to search for an author, allow them to see the result of all the books by the same author.
 
-✓   Allow for only librarian users to be able to add, delete, update (crud operations) on all tables but restrict a user with a role of member from doing this.
+•   Allow for only librarian users to be able to add, delete, update (crud operations) on all tables but restrict a user with a role of member from doing this.
 
-•   Ensure that the search can find letters or words that are included in the respective tables, as well as, finds those that start with or end with the searched letter or word.
+✓   Ensure that the search can find letters or words that are included in the respective tables, as well as, finds those that start with or end with the searched letter or word.
 
 
 
 Have a few sort features on the app that does the following:
 
-•   Sorts all books by name
+✓   Sorts all books by name
 
-•   Sorts all authors by name
+✓   Sorts all authors by name
 
-•   Sorts both genres by their group
+✓   Sorts both genres by their group
