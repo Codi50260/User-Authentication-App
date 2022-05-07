@@ -33,7 +33,7 @@
             while($row = $result2->fetch_assoc()) {
                 array_push($book_name, $row["book_name"]);
                 array_push($year, $row["year"]);
-                array_push($genre, $row["genre"]);
+                array_push($genre, $row["genre"]);  
                 array_push($age_group, $row["age_group"]);
             }
         }
@@ -52,18 +52,6 @@
     } else {
         echo "Error selecting table " . $conn->error;
     }
-
-    // var_dump($name);
-
-    // var_dump($book_name);
-    // var_dump($year);
-    // var_dump($genre);
-    // var_dump($age_group);
-
-    // var_dump($author_name);
-    // var_dump($age);
-    // var_dump($genre_author);
-    // var_dump($book_id);
 ?>
 
 <html lang="zxx">
@@ -96,6 +84,66 @@
         <script src="js/html5shiv.min.js"></script>
         <script src="js/respond.min.js"></script>
         <![endif]-->
+        <script>
+            function move(num, num2){
+                for (var x=0; x < 1; x++){
+                    $(num).after().appendTo(num2);
+                }
+            }
+            function sortBooks(){
+                $('.sort-me').sort(function(a, b) {
+                    if (a.textContent < b.textContent) {
+                        return -1;
+                    } else {
+                        return 1;
+                    }
+                }).appendTo('.here');
+            }
+            function sortGenres(){
+                for (let i=1; i < 10; i++) {
+                    move(".".concat(i), ".t".concat(i));
+                }
+                for (let i=1; i < 10; i++) {
+                    move(".a".concat(i), ".at".concat(i));
+                }
+                $('.sort-me').sort(function(a, b) {
+                    if (a.textContent < b.textContent) {
+                        return -1;
+                    } else {
+                        return 1;
+                    }
+                }).appendTo('.here');
+                for (let i=1; i < 10; i++) {
+                    move(".t".concat(i), ".r".concat(i));
+                }
+                for (let i=1; i < 10; i++) {
+                    move(".at".concat(i), ".ar".concat(i));
+                }
+            }
+            function sort(){
+                value = document.getElementById('sort-by').value;
+                if (value == 'Title'){
+                    sortBooks();
+                } else if (value == 'Genre'){
+                    sortGenres();
+                }
+            }
+            function search_books() {
+                let input = document.getElementById('searchbar').value
+                input=input.toLowerCase();
+                let y = document.getElementsByClassName('sort-me');
+                let x = document.getElementsByClassName('search-here');
+                
+                for (i = 0; i < x.length; i++) {
+                    if (!x[i].innerHTML.toLowerCase().includes(input)) {
+                        y[i].style.display="none";
+                    }
+                    else {
+                        y[i].style.display="inline-block";				
+                    }
+                }
+            }
+        </script>
 
     </head>
 
@@ -117,7 +165,7 @@
 
                                         <div class="col-md-4 col-sm-6">
                                             <div class="form-group">
-                                                <input class="form-control" placeholder="Search by Keyword" id="keywords" name="keywords" type="text">
+                                                <input class="form-control" id="searchbar" onkeyup="search_books()" type="text" name="search" placeholder="Search by Keyword">
                                             </div>
                                         </div>
 
@@ -128,15 +176,15 @@
                                         </div>
 
                                         <div class="col-md-3 col-sm-3">
-                                            <select name="orderby">
-                                                <option selected="selected">Sort by Title</option>
-                                                <option>Sort by Genre</option>
+                                            <select name="orderby" id="sort-by">
+                                                <option value="Title" selected="selected">Sort by Title</option>
+                                                <option value="Genre">Sort by Genre</option>
                                             </select>
                                         </div>
 
                                         <div class="col-md-2 col-sm-6">
                                             <div class="form-group">
-                                                <input class="form-control" type="submit" value="Sort">
+                                                <input class="form-control" type="button" value="Sort" onclick="sort()">
                                             </div>
                                         </div>
                                     </form>
@@ -146,14 +194,16 @@
                             <!-- End: Search Section -->
                             
                             <div class="booksmedia-fullwidth">
-                                <ul>
-                                    <li>
+                                <ul class="here">
+                                    <li class="sort-me">
                                         <figure>
                                             <a href="books-media-detail-v2.html"><img src="images\Books Images\Gatsby.jpg" alt="Book"></a>
                                             <figcaption>
-                                                <header>
-                                                    <h4><a href="books-media-detail-v2.html"><?php echo $book_name[0]?></a></h4>
-                                                    <p><strong>Author: </strong><?php echo $author_name[0]?></p>
+                                                <header class="search-here">
+                                                    <h4 class="r1"></h4>
+                                                    <h4 class="1"><?php echo $book_name[0]?></h4>
+                                                    <p class="ar1"><strong></strong></p>
+                                                    <p class="a1"><strong>Author: </strong><?php echo $author_name[0]?></p>
                                                     <p><strong>Genre: </strong><?php echo $genre[0]?></p>
                                                 </header>
                                                 <p>This book was written by <?php echo $author_name[0]?> on the <?php echo $year[0]?>. It is for the ages of <?php echo $age_group[0]?></p>
@@ -161,13 +211,15 @@
                                         </figure>                                                
                                     </li>
 
-                                    <li>
+                                    <li class="sort-me">
                                         <figure>
                                             <a href="books-media-detail-v2.html"><img src="images\Books Images\TLOR.jpg" alt="Book"></a>
                                             <figcaption>
-                                                <header>
-                                                    <h4><a href="books-media-detail-v2.html"><?php echo $book_name[1]?></a></h4>
-                                                    <p><strong>Author: </strong><?php echo $author_name[1]?></p>
+                                                <header class="search-here">
+                                                    <h4 class="r2"></h4>
+                                                    <h4 class="2"><?php echo $book_name[1]?></h4>
+                                                    <p class="ar2"><strong></strong></p>
+                                                    <p class="a2"><strong>Author: </strong><?php echo $author_name[1]?></p>
                                                     <p><strong>Genre: </strong><?php echo $genre[1]?></p>
                                                 </header>
                                                 <p>This book was written by <?php echo $author_name[1]?> on the <?php echo $year[1]?>. It is for the ages of <?php echo $age_group[1]?></p>
@@ -175,13 +227,15 @@
                                         </figure>                                                
                                     </li>
 
-                                    <li>
+                                    <li class="sort-me">
                                         <figure>
                                             <a href="books-media-detail-v2.html"><img src="images\Books Images\Harry Potter.jpg" alt="Book"></a>
                                             <figcaption>
-                                                <header>
-                                                    <h4><a href="books-media-detail-v2.html"><?php echo $book_name[2]?></a></h4>
-                                                    <p><strong>Author: </strong><?php echo $author_name[2]?></p>
+                                                <header class="search-here">
+                                                    <h4 class="r3"></h4>
+                                                    <h4 class="3"><?php echo $book_name[2]?></h4>
+                                                    <p class="ar3"><strong></strong></p>
+                                                    <p class="a3"><strong>Author: </strong><?php echo $author_name[2]?></p>
                                                     <p><strong>Genre: </strong><?php echo $genre[2]?></p>
                                                 </header>
                                                 <p>This book was written by <?php echo $author_name[2]?> on the <?php echo $year[2]?>. It is for the ages of <?php echo $age_group[2]?></p>
@@ -189,13 +243,15 @@
                                         </figure>                                                
                                     </li>
 
-                                    <li>
+                                    <li class="sort-me">
                                         <figure>
                                             <a href="books-media-detail-v2.html"><img src="images\Books Images\Scouting.jpg" alt="Book"></a>
                                             <figcaption>
-                                                <header>
-                                                    <h4><a href="books-media-detail-v2.html"><?php echo $book_name[3]?></a></h4>
-                                                    <p><strong>Author: </strong><?php echo $author_name[3]?></p>
+                                                <header class="search-here">
+                                                    <h4 class="r4"></h4>
+                                                    <h4 class="4"><?php echo $book_name[3]?></h4>
+                                                    <p class="ar4"><strong></strong></p>
+                                                    <p class="a4"><strong>Author: </strong><?php echo $author_name[3]?></p>
                                                     <p><strong>Genre: </strong><?php echo $genre[3]?></p>
                                                 </header>
                                                 <p>This book was written by <?php echo $author_name[3]?> on the <?php echo $year[3]?>. It is for the ages of <?php echo $age_group[3]?></p>
@@ -203,13 +259,15 @@
                                         </figure>                                                
                                     </li>
 
-                                    <li>
+                                    <li class="sort-me">
                                         <figure>
                                             <a href="books-media-detail-v2.html"><img src="images\Books Images\Hobbit.jpg" alt="Book"></a>
                                             <figcaption>
-                                                <header>
-                                                    <h4><a href="books-media-detail-v2.html"><?php echo $book_name[4]?></a></h4>
-                                                    <p><strong>Author: </strong><?php echo $author_name[1]?></p>
+                                                <header class="search-here">
+                                                    <h4 class="r5"></h4>
+                                                    <h4 class="5"><?php echo $book_name[4]?></h4>
+                                                    <p class="ar5"><strong></strong></p>
+                                                    <p class="a5"><strong>Author: </strong><?php echo $author_name[1]?></p>
                                                     <p><strong>Genre: </strong><?php echo $genre[4]?></p>
                                                 </header>
                                                 <p>This book was written by <?php echo $author_name[1]?> on the <?php echo $year[4]?>. It is for the ages of <?php echo $age_group[4]?></p>
@@ -217,13 +275,15 @@
                                         </figure>                                                
                                     </li>
 
-                                    <li>
+                                    <li class="sort-me">
                                         <figure>
                                             <a href="books-media-detail-v2.html"><img src="images\Books Images\Mockingbird.jpg" alt="Book"></a>
                                             <figcaption>
-                                                <header>
-                                                    <h4><a href="books-media-detail-v2.html"><?php echo $book_name[5]?></a></h4>
-                                                    <p><strong>Author: </strong><?php echo $author_name[4]?></p>
+                                                <header class="search-here">
+                                                    <h4 class="r6"></h4>
+                                                    <h4 class="6"><?php echo $book_name[5]?></h4>
+                                                    <p class="ar6"><strong></strong></p>
+                                                    <p class="a6"><strong>Author: </strong><?php echo $author_name[4]?></p>
                                                     <p><strong>Genre: </strong><?php echo $genre[5]?></p>
                                                 </header>
                                                 <p>This book was written by <?php echo $author_name[4]?> on the <?php echo $year[5]?>. It is for the ages of <?php echo $age_group[5]?></p>
@@ -231,13 +291,15 @@
                                         </figure>                                                
                                     </li>
 
-                                    <li>
+                                    <li class="sort-me">
                                         <figure>
                                             <a href="books-media-detail-v2.html"><img src="images\Books Images\Anna.jpg" alt="Book"></a>
                                             <figcaption>
-                                                <header>
-                                                    <h4><a href="books-media-detail-v2.html"><?php echo $book_name[6]?></a></h4>
-                                                    <p><strong>Author: </strong><?php echo $author_name[5]?></p>
+                                                <header class="search-here">
+                                                    <h4 class="r7"></h4>
+                                                    <h4 class="7"><?php echo $book_name[6]?></h4>
+                                                    <p class="ar7"><strong></strong></p>
+                                                    <p class="a7"><strong>Author: </strong><?php echo $author_name[5]?></p>
                                                     <p><strong>Genre: </strong><?php echo $genre[6]?></p>
                                                 </header>
                                                 <p>This book was written by <?php echo $author_name[5]?> on the <?php echo $year[6]?>. It is for the ages of <?php echo $age_group[6]?></p>
@@ -245,13 +307,15 @@
                                         </figure>                                                
                                     </li>
 
-                                    <li>
+                                    <li class="sort-me">
                                         <figure>
                                             <a href="books-media-detail-v2.html"><img src="images\Books Images\One Hundred.jpg" alt="Book"></a>
                                             <figcaption>
-                                                <header>
-                                                    <h4><a href="books-media-detail-v2.html"><?php echo $book_name[7]?></a></h4>
-                                                    <p><strong>Author: </strong><?php echo $author_name[6]?></p>
+                                                <header class="search-here">
+                                                    <h4 class="r8"></h4>
+                                                    <h4 class="8"><?php echo $book_name[7]?></h4>
+                                                    <p class="ar8"><strong></strong></p>
+                                                    <p class="a8"><strong>Author: </strong><?php echo $author_name[6]?></p>
                                                     <p><strong>Genre: </strong><?php echo $genre[7]?></p>
                                                 </header>
                                                 <p>This book was written by <?php echo $author_name[6]?> on the <?php echo $year[7]?>. It is for the ages of <?php echo $age_group[7]?></p>
@@ -259,13 +323,15 @@
                                         </figure>                                                
                                     </li>
 
-                                    <li>
+                                    <li class="sort-me">
                                         <figure>
                                             <a href="books-media-detail-v2.html"><img src="images\Books Images\Invisible man.jpg" alt="Book"></a>
                                             <figcaption>
-                                                <header>
-                                                    <h4><a href="books-media-detail-v2.html"><?php echo $book_name[8]?></a></h4>
-                                                    <p><strong>Author: </strong><?php echo $author_name[7]?></p>
+                                                <header class="search-here">
+                                                    <h4 class="r9"></h4>
+                                                    <h4 class="9"><?php echo $book_name[8]?></h4>
+                                                    <p class="ar9"><strong></strong></p>
+                                                    <p class="a9"><strong>Author: </strong><?php echo $author_name[7]?></p>
                                                     <p><strong>Genre: </strong><?php echo $genre[8]?></p>
                                                 </header>
                                                 <p>This book was written by <?php echo $author_name[7]?> on the <?php echo $year[8]?>. It is for the ages of <?php echo $age_group[8]?></p>
@@ -285,6 +351,24 @@
                                     <a class="next page-numbers" href="#.">Next <i class="fa fa-long-arrow-right"></i></a>
                                 </div>
                             </nav>
+                            <div class="t1"></div>
+                            <div class="t2"></div>
+                            <div class="t3"></div>
+                            <div class="t4"></div>
+                            <div class="t5"></div>
+                            <div class="t6"></div>
+                            <div class="t7"></div>
+                            <div class="t8"></div>
+                            <div class="t9"></div>
+                            <div class="at1"></div>
+                            <div class="at2"></div>
+                            <div class="at3"></div>
+                            <div class="at4"></div>
+                            <div class="at5"></div>
+                            <div class="at6"></div>
+                            <div class="at7"></div>
+                            <div class="at8"></div>
+                            <div class="at9"></div>
                         </div>
                     </div>
                 </main>
