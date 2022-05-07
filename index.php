@@ -5,25 +5,25 @@
 include('connect.php');
 $_SESSION['boolen'] = FALSE;
 
-$sql = "SELECT user_email, user_password FROM users";
-$result = $conn->query($sql);
+// $sql = "SELECT user_email, user_password FROM users";
+// $result = $conn->query($sql);
 
-$email = [];
-$password = [];
+// $email = [];
+// $password = [];
 
-if($result){
-    if($result->num_rows > 0){
-        while($row = $result->fetch_assoc()) {
-			array_push($email, $row["user_email"]);
-			array_push($password, $row["user_password"]);
-        }
-    }
-} else {
-    echo "Error selecting table " . $conn->error;
-}
+// if($result){
+//     if($result->num_rows > 0){
+//         while($row = $result->fetch_assoc()) {
+// 			array_push($email, $row["user_email"]);
+// 			array_push($password, $row["user_password"]);
+//         }
+//     }
+// } else {
+//     echo "Error selecting table " . $conn->error;
+// }
 
-var_dump($email);
-var_dump($password);
+// var_dump($email);
+// var_dump($password);
 ?>
 <html lang="en">
 <head>
@@ -46,23 +46,6 @@ var_dump($password);
 	<link rel="stylesheet" type="text/css" href="css/util.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 <!--===============================================================================================-->
-	<script>
-		function verify() {
-			bool = false
-
-			var test_email = document.getElementById("email").value;
-			var test_pass = document.getElementById("password").value;
-			console.log(test_email)
-			console.log(test_pass)
-
-			if (bool == false){
-				document.getElementById("error").style.visibility = "hidden"
-				document.getElementById("form").submit();
-			} else {
-				document.getElementById("error").style.visibility = "visible"
-			}
-		}
-	</script>
 </head>
 <body>
 	
@@ -73,12 +56,12 @@ var_dump($password);
 					<img src="images/img-01.png" alt="IMG">
 				</div>
 
-				<form class="login100-form validate-form" method="post" action="library_member.php" id="form" name="search-theme-form">
+				<form class="login100-form validate-form" method="post" id="form" name="search-theme-form">
 					<span class="login100-form-title">
 						Member Login
 					</span>
 
-					<div class="wrap-input100 validate-input">
+					<div class="wrap-input100 validate-input" data-validate = "Valid email is required: Mark@gmail.com">
 						<input class="input100" type="text" name="email" placeholder="Email" id="email">
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
@@ -86,7 +69,7 @@ var_dump($password);
 						</span>
 					</div>
 
-					<div class="wrap-input100 validate-input">
+					<div class="wrap-input100 validate-input" data-validate = "Password cannot be empty">
 						<input class="input100" type="password" name="pass" placeholder="Password" id="password">
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
@@ -97,7 +80,7 @@ var_dump($password);
 					<p class="tooltiptext" id="error" style="visibility: hidden; color: #D8000C; background-color: #FFBABA; text-align: center; border-radius: 25px;">Email or Password Incorrect</p>
 
 					<div class="container-login100-form-btn">
-						<button type="button" class="login100-form-btn" onclick="verify()">
+						<button type="submit" class="login100-form-btn">
 							Login
 						</button>
 					</div>
@@ -143,32 +126,16 @@ var_dump($password);
 </html>
 
 <?php
+if ($_POST){
+	$email = $_POST["email"];
+	$password = $_POST["pass"];
 
-// if ($_POST) {
-// 	$emailPost = $_POST['email'];
-// 	$passwordPost = $_POST['pass'];
-// 	$check1 = False;
-// 	$check2 = False;
-// 	$check3 = False;
-
-// 	for ($x = 0; $x < count($email); $x++) {
-// 		if ($emailPost == $email[$x]) {
-// 			$check1 = True;
-// 			$_SESSION['boolen'] = TRUE;
-// 		}
-// 		if ($passwordPost == $password[$x]) {
-// 			$check2 = True;
-// 			$_SESSION['boolen'] = TRUE;
-// 		}
-// 		if ($check1 && $check2) {
-// 			$check3 = True;
-// 		} else {
-// 			$check1 = False;
-// 			$check2 = False;
-// 		}
-// 	}
-// 	if ($check3 == True){
-// 		echo "User is valid";
-// 	}
-// }
+	if (($email != '') and ($password != '')){
+		$userValid = mysqli_query($conn, "SELECT user_password, user_email FROM users WHERE (user_password = '".$_POST['pass']."' AND user_email = '".$_POST['email']."')");
+		if(mysqli_num_rows($userValid)) {
+			echo "<script> location.href='library_member.php'; </script>";
+        	exit;
+		}
+	}
+}
 ?>
