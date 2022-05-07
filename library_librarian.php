@@ -1,4 +1,5 @@
 <?php include('connect.php');
+    session_start();
 
     $sql = "SELECT user_name FROM users";
     $sql2 = "SELECT book_name, year, genre, age_group FROM books";
@@ -51,6 +52,10 @@
         }
     } else {
         echo "Error selecting table " . $conn->error;
+    }
+    function addBook(){
+        $sql = "INSERT INTO users (user_name, user_email, user_password, security_question, security_answer, user_role)
+        VALUES ('$name', '$email', '$password', '$question', '$answer', 'member')";
     }
 ?>
 
@@ -160,6 +165,12 @@
                     }
                 }
             }
+            function showEditBook(){
+                value = document.getElementById('editBook').style.display = "block";
+            }
+            function showEditAuthor(){
+                value = document.getElementById('editAuthor').style.display = "block";
+            }
         </script>
 
     </head>
@@ -173,12 +184,9 @@
                         <div class="container">
                             <!-- Start: Search Section -->
                             <section class="search-filters">
-                                <div style="text-align: right;">
-                                    <button onclick="window.location.href='library_member.php'">Switch to Member mode:</button>
-                                </div>
                                 <div class="filter-box">
-                                    <h3><?php echo "Welcome Back ".$name[0]."! <p></p>What are you looking for?";?></h3>
-                                    <form action="#" method="post" style="align-items: center;">
+                                    <h3><?php echo "Welcome Back ".$_SESSION['userName']."! <p></p>What are you looking for?";?></h3>
+                                    <div style="align-items: center;">
 
                                         <div class="col-md-4 col-sm-6">
                                             <div class="form-group">
@@ -186,13 +194,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-2 col-sm-6">
-                                            <div class="form-group">
-                                                <input class="form-control" type="submit" value="Search">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-4 col-sm-6">
+                                        <div class="col-md-3 col-sm-3">
                                             <select name="orderby" id="sort-by">
                                                 <option value="Title" selected="selected">Sort by Title</option>
                                                 <option value="Author">Sort by Authors</option>
@@ -206,58 +208,124 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-3 col-sm-3" style="width: 20.8%;">
-                                            <div class="form-group">
-                                                <input class="form-control" placeholder="Book name" id="Book name" name="Book name" type="text">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3 col-sm-3" style="width: 20.8%;">
-                                            <div class="form-group">
-                                                <input class="form-control" placeholder="Year Published" id="Year Published" name="Year Published" type="text">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3 col-sm-3" style="width: 20.8%;">
-                                            <div class="form-group">
-                                                <input class="form-control" placeholder="Genre" id="Genre" name="Genre" type="text">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3 col-sm-3" style="width: 20.8%;">
-                                            <div class="form-group">
-                                                <input class="form-control" placeholder="Age Group" id="Age Group" name="Age Group" type="text">
-                                            </div>
-                                        </div>
                                         <div class="col-md-2 col-sm-6">
                                             <div class="form-group">
-                                                <input class="form-control" type="submit" value="Add New Book">
+                                                <input class="form-control" type="button" value="Switch to Member mode:" onclick="window.location.href='library_member.php'" style="width: 250px">
                                             </div>
                                         </div>
 
-                                        <div class="col-md-3 col-sm-3" style="width: 20.8%;">
-                                            <div class="form-group">
-                                                <input class="form-control" placeholder="Author Name" id="Author Name" name="Author Name" type="text">
+                                        <form method="post">
+                                            <div class="col-md-3 col-sm-3" style="width: 20.8%;">
+                                                <div class="form-group">
+                                                    <input class="form-control" placeholder="Book name" id="Book_name" name="Book_name" type="text">
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-3 col-sm-3" style="width: 20.8%;">
-                                            <div class="form-group">
-                                                <input class="form-control" placeholder="Author Age" id="Author Age" name="Author Age" type="text">
+                                            <div class="col-md-3 col-sm-3" style="width: 20.8%;">
+                                                <div class="form-group">
+                                                    <input class="form-control" placeholder="Year Published" id="Year_Published" name="Year_Published" type="text">
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-3 col-sm-3" style="width: 20.8%;">
-                                            <div class="form-group">
-                                                <input class="form-control" placeholder="Author Genre" id="Author Genre" name="Author Genre" type="text">
+                                            <div class="col-md-3 col-sm-3" style="width: 20.8%;">
+                                                <div class="form-group">
+                                                    <input class="form-control" placeholder="Genre" id="Genre" name="Genre" type="text">
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-3 col-sm-3" style="width: 20.8%;">
-                                            <div class="form-group">
-                                                <input class="form-control" placeholder="Book ID" id="Book ID" name="Book ID" type="text">
+                                            <div class="col-md-3 col-sm-3" style="width: 20.8%;">
+                                                <div class="form-group">
+                                                    <input class="form-control" placeholder="Age Group" id="Age_Group" name="Age_Group" type="text">
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-2 col-sm-6">
-                                            <div class="form-group">
-                                                <input class="form-control" type="submit" value="Edit Author">
+                                            <div class="col-md-2 col-sm-6">
+                                                <div class="form-group">
+                                                    <input class="form-control" type="submit" value="Add New Book" name="newBook">
+                                                </div>
                                             </div>
-                                        </div>
-                                    </form>
+                                        </form>
+
+                                        <form method="post" style="display: None" id="editBook">
+                                            <div class="col-md-3 col-sm-3" style="width: 20.8%;">
+                                                <div class="form-group">
+                                                    <input class="form-control" id="Book_name" name="Book_name" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3" style="width: 20.8%;">
+                                                <div class="form-group">
+                                                    <input class="form-control" id="Year_Published" name="Year_Published" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3" style="width: 20.8%;">
+                                                <div class="form-group">
+                                                    <input class="form-control" id="Genre" name="Genre" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3" style="width: 20.8%;">
+                                                <div class="form-group">
+                                                    <input class="form-control" id="Age_Group" name="Age_Group" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 col-sm-6">
+                                                <div class="form-group">
+                                                    <input class="form-control" type="submit" value="Update Book" name="editBook">
+                                                </div>
+                                            </div>
+                                        </form>
+
+                                        <form method="post">
+                                            <div class="col-md-3 col-sm-3" style="width: 20.8%;">
+                                                <div class="form-group">
+                                                    <input class="form-control" placeholder="Author Name" id="Author_Name" name="Author_Name" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3" style="width: 20.8%;">
+                                                <div class="form-group">
+                                                    <input class="form-control" placeholder="Author Age" id="Author_Age" name="Author_Age" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3" style="width: 20.8%;">
+                                                <div class="form-group">
+                                                    <input class="form-control" placeholder="Author Genre" id="Author_Genre" name="Author_Genre" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3" style="width: 20.8%;">
+                                                <div class="form-group">
+                                                    <input class="form-control" placeholder="Book Reference (ID)" id="Book_ID" name="Book_ID" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 col-sm-6">
+                                                <div class="form-group">
+                                                    <input class="form-control" type="submit" value="Add Author" name="addAuthor">
+                                                </div>
+                                            </div>
+                                        </form>
+
+                                        <form method="post" style="display: None" id="editAuthor">
+                                            <div class="col-md-3 col-sm-3" style="width: 20.8%;">
+                                                <div class="form-group">
+                                                    <input class="form-control" id="Author_Name" name="Author_Name" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3" style="width: 20.8%;">
+                                                <div class="form-group">
+                                                    <input class="form-control" id="Author_Age" name="Author_Age" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3" style="width: 20.8%;">
+                                                <div class="form-group">
+                                                    <input class="form-control" id="Author_Genre" name="Author_Genre" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3" style="width: 20.8%;">
+                                                <div class="form-group">
+                                                    <input class="form-control" id="Book_ID" name="Book_ID" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 col-sm-6">
+                                                <div class="form-group">
+                                                    <input class="form-control" type="submit" value="Update Author" name="editAuthor">
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                                 <div class="clear"></div>
                             </section>
@@ -280,13 +348,23 @@
                                                 <div class="actions">
                                                     <ul>
                                                         <li>
-                                                            <a href="Edit_Book.php" data-toggle="blog-tags" data-placement="top" title="Edit book">
+                                                            <a onclick="showEditBook()" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit book">
                                                                 <i class="fa fa-book"></i>
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a href="#" data-toggle="blog-tags" data-placement="top" title="Delete Book">
+                                                            <a onclick="showEditAuthor()" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit Author">
+                                                                <i class="fa fa-user"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a data-toggle="blog-tags" data-placement="top" title="Delete Book">
                                                                 <i class="fa fa-trash"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a data-toggle="blog-tags" data-placement="top" title="Delete Author">
+                                                                <i class="fa fa-user-times"></i>
                                                             </a>
                                                         </li>
                                                     </ul>
@@ -310,13 +388,23 @@
                                                 <div class="actions">
                                                     <ul>
                                                         <li>
-                                                            <a href="Edit_Book.php" data-toggle="blog-tags" data-placement="top" title="Edit book">
+                                                            <a onclick="showEditBook()" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit book">
                                                                 <i class="fa fa-book"></i>
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a href="#" data-toggle="blog-tags" data-placement="top" title="Delete Book">
+                                                            <a onclick="showEditAuthor()" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit Author">
+                                                                <i class="fa fa-user"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a data-toggle="blog-tags" data-placement="top" title="Delete Book">
                                                                 <i class="fa fa-trash"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a data-toggle="blog-tags" data-placement="top" title="Delete Author">
+                                                                <i class="fa fa-user-times"></i>
                                                             </a>
                                                         </li>
                                                     </ul>
@@ -340,13 +428,23 @@
                                                 <div class="actions">
                                                     <ul>
                                                         <li>
-                                                            <a href="Edit_Book.php" data-toggle="blog-tags" data-placement="top" title="Edit book">
+                                                            <a onclick="showEditBook()" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit book">
                                                                 <i class="fa fa-book"></i>
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a href="#" data-toggle="blog-tags" data-placement="top" title="Delete Book">
+                                                            <a onclick="showEditAuthor()" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit Author">
+                                                                <i class="fa fa-user"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a data-toggle="blog-tags" data-placement="top" title="Delete Book">
                                                                 <i class="fa fa-trash"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a data-toggle="blog-tags" data-placement="top" title="Delete Author">
+                                                                <i class="fa fa-user-times"></i>
                                                             </a>
                                                         </li>
                                                     </ul>
@@ -370,13 +468,23 @@
                                                 <div class="actions">
                                                     <ul>
                                                         <li>
-                                                            <a href="Edit_Book.php" data-toggle="blog-tags" data-placement="top" title="Edit book">
+                                                            <a onclick="showEditBook()" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit book">
                                                                 <i class="fa fa-book"></i>
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a href="#" data-toggle="blog-tags" data-placement="top" title="Delete Book">
+                                                            <a onclick="showEditAuthor()" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit Author">
+                                                                <i class="fa fa-user"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a data-toggle="blog-tags" data-placement="top" title="Delete Book">
                                                                 <i class="fa fa-trash"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a data-toggle="blog-tags" data-placement="top" title="Delete Author">
+                                                                <i class="fa fa-user-times"></i>
                                                             </a>
                                                         </li>
                                                     </ul>
@@ -399,13 +507,23 @@
                                                 <p>This book was written by <?php echo $author_name[1]?> on the <?php echo $year[4]?>. It is for the ages of <?php echo $age_group[4]?></p><div class="actions">
                                                     <ul>
                                                         <li>
-                                                            <a href="Edit_Book.php" data-toggle="blog-tags" data-placement="top" title="Edit book">
+                                                            <a onclick="showEditBook()" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit book">
                                                                 <i class="fa fa-book"></i>
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a href="#" data-toggle="blog-tags" data-placement="top" title="Delete Book">
+                                                            <a onclick="showEditAuthor()" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit Author">
+                                                                <i class="fa fa-user"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a data-toggle="blog-tags" data-placement="top" title="Delete Book">
                                                                 <i class="fa fa-trash"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a data-toggle="blog-tags" data-placement="top" title="Delete Author">
+                                                                <i class="fa fa-user-times"></i>
                                                             </a>
                                                         </li>
                                                     </ul>
@@ -429,13 +547,23 @@
                                                 <div class="actions">
                                                     <ul>
                                                         <li>
-                                                            <a href="Edit_Book.php" data-toggle="blog-tags" data-placement="top" title="Edit book">
+                                                            <a onclick="showEditBook()" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit book">
                                                                 <i class="fa fa-book"></i>
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a href="#" data-toggle="blog-tags" data-placement="top" title="Delete Book">
+                                                            <a onclick="showEditAuthor()" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit Author">
+                                                                <i class="fa fa-user"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a data-toggle="blog-tags" data-placement="top" title="Delete Book">
                                                                 <i class="fa fa-trash"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a data-toggle="blog-tags" data-placement="top" title="Delete Author">
+                                                                <i class="fa fa-user-times"></i>
                                                             </a>
                                                         </li>
                                                     </ul>
@@ -459,13 +587,23 @@
                                                 <div class="actions">
                                                     <ul>
                                                         <li>
-                                                            <a href="Edit_Book.php" data-toggle="blog-tags" data-placement="top" title="Edit book">
+                                                            <a onclick="showEditBook()" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit book">
                                                                 <i class="fa fa-book"></i>
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a href="#" data-toggle="blog-tags" data-placement="top" title="Delete Book">
+                                                            <a onclick="showEditAuthor()" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit Author">
+                                                                <i class="fa fa-user"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a data-toggle="blog-tags" data-placement="top" title="Delete Book">
                                                                 <i class="fa fa-trash"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a data-toggle="blog-tags" data-placement="top" title="Delete Author">
+                                                                <i class="fa fa-user-times"></i>
                                                             </a>
                                                         </li>
                                                     </ul>
@@ -489,13 +627,23 @@
                                                 <div class="actions">
                                                     <ul>
                                                         <li>
-                                                            <a href="Edit_Book.php" data-toggle="blog-tags" data-placement="top" title="Edit book">
+                                                            <a onclick="showEditBook()" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit book">
                                                                 <i class="fa fa-book"></i>
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a href="#" data-toggle="blog-tags" data-placement="top" title="Delete Book">
+                                                            <a onclick="showEditAuthor()" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit Author">
+                                                                <i class="fa fa-user"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a data-toggle="blog-tags" data-placement="top" title="Delete Book">
                                                                 <i class="fa fa-trash"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a data-toggle="blog-tags" data-placement="top" title="Delete Author">
+                                                                <i class="fa fa-user-times"></i>
                                                             </a>
                                                         </li>
                                                     </ul>
@@ -519,13 +667,23 @@
                                                 <div class="actions">
                                                     <ul>
                                                         <li>
-                                                            <a href="Edit_Book.php" data-toggle="blog-tags" data-placement="top" title="Edit book">
+                                                            <a onclick="showEditBook()" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit book">
                                                                 <i class="fa fa-book"></i>
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a href="#" data-toggle="blog-tags" data-placement="top" title="Delete Book">
+                                                            <a onclick="showEditAuthor()" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit Author">
+                                                                <i class="fa fa-user"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a data-toggle="blog-tags" data-placement="top" title="Delete Book">
                                                                 <i class="fa fa-trash"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a data-toggle="blog-tags" data-placement="top" title="Delete Author">
+                                                                <i class="fa fa-user-times"></i>
                                                             </a>
                                                         </li>
                                                     </ul>
@@ -623,3 +781,32 @@
 
     </body>
 </html>
+<?php if ($_POST){
+    if(isset($_POST["newBook"])){
+        $name = $_POST['Book_name'];
+        $year = $_POST['Year_Published'];
+        $genre = $_POST['Genre'];
+        $age = $_POST['Age_Group'];
+        $sql = "INSERT INTO books (book_name, year, genre, age_group)
+        VALUES ('$name', '$year', '$genre', '$age')";
+        if ($conn->query($sql) === TRUE) {
+            echo "New Book has been successfully created";
+        } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
+    }
+    if(isset($_POST["addAuthor"])){
+        $name = $_POST['Author_Name'];
+        $age = $_POST['Author_Age'];
+        $genre = $_POST['Author_Genre'];
+        $bookID = $_POST['Book_ID'];
+        $sql = "INSERT INTO authors (author_name, age, genre, book_id)
+        VALUES ('$name', '$age', '$genre', '$bookID')";
+        if ($conn->query($sql) === TRUE) {
+            echo "New Author has been successfully created";
+        } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
+    }
+}
+?>
