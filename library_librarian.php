@@ -53,9 +53,13 @@
     } else {
         echo "Error selecting table " . $conn->error;
     }
-    function addBook(){
-        $sql = "INSERT INTO users (user_name, user_email, user_password, security_question, security_answer, user_role)
-        VALUES ('$name', '$email', '$password', '$question', '$answer', 'member')";
+    function deleteBook($delName){
+        $sql = "DELETE FROM books WHERE book_name ='".$delName."';";
+        if ($conn->query($sql) === TRUE) {
+            echo "Book has been successfully deleted";
+        } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
     }
 ?>
 
@@ -165,11 +169,22 @@
                     }
                 }
             }
-            function showEditBook(){
-                value = document.getElementById('editBook').style.display = "block";
+            function showEditBook(book_name, year_pub, book_genre, age_group, book_ID){
+                document.getElementById('editBook').style.display = "block";
+                document.getElementById('Book_ID_update').value = book_ID;
+                document.getElementById('Book_name_update').value = book_name;
+                document.getElementById('Year_Published_update').value = year_pub;
+                document.getElementById('Genre_update').value = book_genre;
+                document.getElementById('Age_Group_update').value = age_group;
+                
             }
-            function showEditAuthor(){
-                value = document.getElementById('editAuthor').style.display = "block";
+            function showEditAuthor(author_name, author_age, author_genre, book_ID){
+                document.getElementById('editAuthor').style.display = "block";
+                document.getElementById('Author_Name_const').value = author_name;
+                document.getElementById('Author_Name_update').value = author_name;
+                document.getElementById('Author_Age_update').value = author_age;
+                document.getElementById('Author_Genre_update').value = author_genre;
+                document.getElementById('Book_ID_update_Auth').value = book_ID;
             }
         </script>
 
@@ -242,34 +257,6 @@
                                             </div>
                                         </form>
 
-                                        <form method="post" style="display: None" id="editBook">
-                                            <div class="col-md-3 col-sm-3" style="width: 20.8%;">
-                                                <div class="form-group">
-                                                    <input class="form-control" id="Book_name" name="Book_name" type="text">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-3 col-sm-3" style="width: 20.8%;">
-                                                <div class="form-group">
-                                                    <input class="form-control" id="Year_Published" name="Year_Published" type="text">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-3 col-sm-3" style="width: 20.8%;">
-                                                <div class="form-group">
-                                                    <input class="form-control" id="Genre" name="Genre" type="text">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-3 col-sm-3" style="width: 20.8%;">
-                                                <div class="form-group">
-                                                    <input class="form-control" id="Age_Group" name="Age_Group" type="text">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-2 col-sm-6">
-                                                <div class="form-group">
-                                                    <input class="form-control" type="submit" value="Update Book" name="editBook">
-                                                </div>
-                                            </div>
-                                        </form>
-
                                         <form method="post">
                                             <div class="col-md-3 col-sm-3" style="width: 20.8%;">
                                                 <div class="form-group">
@@ -298,25 +285,55 @@
                                             </div>
                                         </form>
 
+                                        <form method="post" style="display: None" id="editBook">
+                                            <input class="form-control" id="Book_ID_update" name="Book_ID_update" type="text" style="display: None">
+                                            <div class="col-md-3 col-sm-3" style="width: 20.8%;">
+                                                <div class="form-group">
+                                                    <input class="form-control" id="Book_name_update" name="Book_name_update" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3" style="width: 20.8%;">
+                                                <div class="form-group">
+                                                    <input class="form-control" id="Year_Published_update" name="Year_Published_update" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3" style="width: 20.8%;">
+                                                <div class="form-group">
+                                                    <input class="form-control" id="Genre_update" name="Genre_update" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3" style="width: 20.8%;">
+                                                <div class="form-group">
+                                                    <input class="form-control" id="Age_Group_update" name="Age_Group_update" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 col-sm-6">
+                                                <div class="form-group">
+                                                    <input class="form-control" type="submit" value="Update Book" name="editBook">
+                                                </div>
+                                            </div>
+                                        </form>
+
                                         <form method="post" style="display: None" id="editAuthor">
+                                            <input class="form-control" id="Author_Name_const" name="Author_Name_const" type="text" style="display: None">
                                             <div class="col-md-3 col-sm-3" style="width: 20.8%;">
                                                 <div class="form-group">
-                                                    <input class="form-control" id="Author_Name" name="Author_Name" type="text">
+                                                    <input class="form-control" id="Author_Name_update" name="Author_Name_update" type="text">
                                                 </div>
                                             </div>
                                             <div class="col-md-3 col-sm-3" style="width: 20.8%;">
                                                 <div class="form-group">
-                                                    <input class="form-control" id="Author_Age" name="Author_Age" type="text">
+                                                    <input class="form-control" id="Author_Age_update" name="Author_Age_update" type="text">
                                                 </div>
                                             </div>
                                             <div class="col-md-3 col-sm-3" style="width: 20.8%;">
                                                 <div class="form-group">
-                                                    <input class="form-control" id="Author_Genre" name="Author_Genre" type="text">
+                                                    <input class="form-control" id="Author_Genre_update" name="Author_Genre_update" type="text">
                                                 </div>
                                             </div>
                                             <div class="col-md-3 col-sm-3" style="width: 20.8%;">
                                                 <div class="form-group">
-                                                    <input class="form-control" id="Book_ID" name="Book_ID" type="text">
+                                                    <input class="form-control" id="Book_ID_update_Auth" name="Book_ID_update_Auth" type="text">
                                                 </div>
                                             </div>
                                             <div class="col-md-2 col-sm-6">
@@ -348,24 +365,31 @@
                                                 <div class="actions">
                                                     <ul>
                                                         <li>
-                                                            <a onclick="showEditBook()" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit book">
-                                                                <i class="fa fa-book"></i>
+                                                            <a onclick="showEditBook('<?php echo $book_name[0]?>', '<?php echo $year[0]?>', '<?php echo $genre[0]?>', '<?php echo $age_group[0]?>', '<?php echo $book_id[0]?>')" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit book">
+                                                                <button name="deleteBook" style="background-color: transparent; padding: 0px 0px 0px 0px"><i class="fa fa-book" style="color: black"></i></button>
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a onclick="showEditAuthor()" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit Author">
-                                                                <i class="fa fa-user"></i>
+                                                            <a onclick="showEditAuthor('<?php echo $author_name[0]?>', '<?php echo $age[0]?>', '<?php echo $genre_author[0]?>', '<?php echo $book_id[0]?>')" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit Author">
+                                                                <button style="background-color: transparent; padding: 0px 0px 0px 0px"><i class="fa fa-user" style="color: black"></i></button>
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a data-toggle="blog-tags" data-placement="top" title="Delete Book">
-                                                                <i class="fa fa-trash"></i>
-                                                            </a>
+                                                            <form method="post">
+                                                                <input name="BookName" style="display: None" value="<?php echo $book_name[0]?>">
+                                                                <input name="id" style="display: None" value="<?php echo $book_id[0]?>">
+                                                                <a data-toggle="blog-tags" data-placement="top" title="Delete Book" style="color: #eb4034" name="deleteBook">
+                                                                    <button name="deleteBook" style="background-color: transparent; padding: 0px 0px 0px 0px"><i class="fa fa-trash" style="color: red"></i></button>
+                                                                </a>
+                                                            </form>
                                                         </li>
                                                         <li>
-                                                            <a data-toggle="blog-tags" data-placement="top" title="Delete Author">
-                                                                <i class="fa fa-user-times"></i>
-                                                            </a>
+                                                            <form method="post">
+                                                                <input name="AuthorName" style="display: None" value="<?php echo $author_name[0]?>">
+                                                                <a data-toggle="blog-tags" data-placement="top" title="Delete Author" style="color: #eb4034" name="deleteAuthor">
+                                                                    <button name="deleteAuthor" style="background-color: transparent; padding: 0px 0px 0px 0px"><i class="fa fa-user-times" style="color: red"></i></button>
+                                                                </a>
+                                                            </form>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -388,24 +412,31 @@
                                                 <div class="actions">
                                                     <ul>
                                                         <li>
-                                                            <a onclick="showEditBook()" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit book">
-                                                                <i class="fa fa-book"></i>
+                                                            <a onclick="showEditBook('<?php echo $book_name[1]?>', '<?php echo $year[1]?>', '<?php echo $genre[1]?>', '<?php echo $age_group[1]?>', '<?php echo $book_id[1]?>')" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit book">
+                                                                <button name="deleteBook" style="background-color: transparent; padding: 0px 0px 0px 0px"><i class="fa fa-book" style="color: black"></i></button>
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a onclick="showEditAuthor()" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit Author">
-                                                                <i class="fa fa-user"></i>
+                                                            <a onclick="showEditAuthor('<?php echo $author_name[1]?>', '<?php echo $age[1]?>', '<?php echo $genre_author[1]?>', '<?php echo $book_id[1]?>')" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit Author">
+                                                                <button style="background-color: transparent; padding: 0px 0px 0px 0px"><i class="fa fa-user" style="color: black"></i></button>
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a data-toggle="blog-tags" data-placement="top" title="Delete Book">
-                                                                <i class="fa fa-trash"></i>
-                                                            </a>
+                                                            <form method="post">
+                                                                <input name="BookName" style="display: None" value="<?php echo $book_name[1]?>">
+                                                                <input name="id" style="display: None" value="<?php echo $book_id[0]?>">
+                                                                <a data-toggle="blog-tags" data-placement="top" title="Delete Book" style="color: #eb4034" name="deleteBook">
+                                                                    <button name="deleteBook" style="background-color: transparent; padding: 0px 0px 0px 0px"><i class="fa fa-trash" style="color: red"></i></button>
+                                                                </a>
+                                                            </form>
                                                         </li>
                                                         <li>
-                                                            <a data-toggle="blog-tags" data-placement="top" title="Delete Author">
-                                                                <i class="fa fa-user-times"></i>
-                                                            </a>
+                                                            <form method="post">
+                                                                <input name="AuthorName" style="display: None" value="<?php echo $author_name[1]?>">
+                                                                <a data-toggle="blog-tags" data-placement="top" title="Delete Author" style="color: #eb4034" name="deleteAuthor">
+                                                                    <button name="deleteAuthor" style="background-color: transparent; padding: 0px 0px 0px 0px"><i class="fa fa-user-times" style="color: red"></i></button>
+                                                                </a>
+                                                            </form>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -428,24 +459,31 @@
                                                 <div class="actions">
                                                     <ul>
                                                         <li>
-                                                            <a onclick="showEditBook()" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit book">
-                                                                <i class="fa fa-book"></i>
+                                                            <a onclick="showEditBook('<?php echo $book_name[2]?>', '<?php echo $year[2]?>', '<?php echo $genre[2]?>', '<?php echo $age_group[2]?>', '<?php echo $book_id[2]?>')" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit book">
+                                                                <button name="deleteBook" style="background-color: transparent; padding: 0px 0px 0px 0px"><i class="fa fa-book" style="color: black"></i></button>
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a onclick="showEditAuthor()" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit Author">
-                                                                <i class="fa fa-user"></i>
+                                                            <a onclick="showEditAuthor('<?php echo $author_name[2]?>', '<?php echo $age[2]?>', '<?php echo $genre_author[2]?>', '<?php echo $book_id[2]?>')" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit Author">
+                                                                <button style="background-color: transparent; padding: 0px 0px 0px 0px"><i class="fa fa-user" style="color: black"></i></button>
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a data-toggle="blog-tags" data-placement="top" title="Delete Book">
-                                                                <i class="fa fa-trash"></i>
-                                                            </a>
+                                                            <form method="post">
+                                                                <input name="BookName" style="display: None" value="<?php echo $book_name[2]?>">
+                                                                <input name="id" style="display: None" value="<?php echo $book_id[1]?>">
+                                                                <a data-toggle="blog-tags" data-placement="top" title="Delete Book" style="color: #eb4034" name="deleteBook">
+                                                                    <button name="deleteBook" style="background-color: transparent; padding: 0px 0px 0px 0px"><i class="fa fa-trash" style="color: red"></i></button>
+                                                                </a>
+                                                            </form>
                                                         </li>
                                                         <li>
-                                                            <a data-toggle="blog-tags" data-placement="top" title="Delete Author">
-                                                                <i class="fa fa-user-times"></i>
-                                                            </a>
+                                                            <form method="post">
+                                                                <input name="AuthorName" style="display: None" value="<?php echo $author_name[2]?>">
+                                                                <a data-toggle="blog-tags" data-placement="top" title="Delete Author" style="color: #eb4034" name="deleteAuthor">
+                                                                    <button name="deleteAuthor" style="background-color: transparent; padding: 0px 0px 0px 0px"><i class="fa fa-user-times" style="color: red"></i></button>
+                                                                </a>
+                                                            </form>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -468,24 +506,31 @@
                                                 <div class="actions">
                                                     <ul>
                                                         <li>
-                                                            <a onclick="showEditBook()" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit book">
-                                                                <i class="fa fa-book"></i>
+                                                            <a onclick="showEditBook('<?php echo $book_name[3]?>', '<?php echo $year[3]?>', '<?php echo $genre[3]?>', '<?php echo $age_group[3]?>', '<?php echo $book_id[3]?>')" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit book">
+                                                                <button name="deleteBook" style="background-color: transparent; padding: 0px 0px 0px 0px"><i class="fa fa-book" style="color: black"></i></button>
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a onclick="showEditAuthor()" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit Author">
-                                                                <i class="fa fa-user"></i>
+                                                            <a onclick="showEditAuthor('<?php echo $author_name[3]?>', '<?php echo $age[3]?>', '<?php echo $genre_author[3]?>', '<?php echo $book_id[3]?>')" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit Author">
+                                                                <button style="background-color: transparent; padding: 0px 0px 0px 0px"><i class="fa fa-user" style="color: black"></i></button>
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a data-toggle="blog-tags" data-placement="top" title="Delete Book">
-                                                                <i class="fa fa-trash"></i>
-                                                            </a>
+                                                            <form method="post">
+                                                                <input name="BookName" style="display: None" value="<?php echo $book_name[3]?>">
+                                                                <input name="id" style="display: None" value="<?php echo $book_id[2]?>">
+                                                                <a data-toggle="blog-tags" data-placement="top" title="Delete Book" style="color: #eb4034" name="deleteBook">
+                                                                    <button name="deleteBook" style="background-color: transparent; padding: 0px 0px 0px 0px"><i class="fa fa-trash" style="color: red"></i></button>
+                                                                </a>
+                                                            </form>
                                                         </li>
                                                         <li>
-                                                            <a data-toggle="blog-tags" data-placement="top" title="Delete Author">
-                                                                <i class="fa fa-user-times"></i>
-                                                            </a>
+                                                            <form method="post">
+                                                                <input name="AuthorName" style="display: None" value="<?php echo $author_name[3]?>">
+                                                                <a data-toggle="blog-tags" data-placement="top" title="Delete Author" style="color: #eb4034" name="deleteAuthor">
+                                                                    <button name="deleteAuthor" style="background-color: transparent; padding: 0px 0px 0px 0px"><i class="fa fa-user-times" style="color: red"></i></button>
+                                                                </a>
+                                                            </form>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -507,24 +552,31 @@
                                                 <p>This book was written by <?php echo $author_name[1]?> on the <?php echo $year[4]?>. It is for the ages of <?php echo $age_group[4]?></p><div class="actions">
                                                     <ul>
                                                         <li>
-                                                            <a onclick="showEditBook()" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit book">
-                                                                <i class="fa fa-book"></i>
+                                                            <a onclick="showEditBook('<?php echo $book_name[4]?>', '<?php echo $year[4]?>', '<?php echo $genre[4]?>', '<?php echo $age_group[4]?>', '<?php echo $book_id[4] - $book_id[0]?>')" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit book">
+                                                                <button name="deleteBook" style="background-color: transparent; padding: 0px 0px 0px 0px"><i class="fa fa-book" style="color: black"></i></button>
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a onclick="showEditAuthor()" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit Author">
-                                                                <i class="fa fa-user"></i>
+                                                            <a onclick="showEditAuthor('<?php echo $author_name[1]?>', '<?php echo $age[1]?>', '<?php echo $genre_author[1]?>', '<?php echo $book_id[4] - $book_id[0]?>')" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit Author">
+                                                                <button style="background-color: transparent; padding: 0px 0px 0px 0px"><i class="fa fa-user" style="color: black"></i></button>
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a data-toggle="blog-tags" data-placement="top" title="Delete Book">
-                                                                <i class="fa fa-trash"></i>
-                                                            </a>
+                                                            <form method="post">
+                                                                <input name="BookName" style="display: None" value="<?php echo $book_name[4]?>">
+                                                                <input name="id" style="display: None" value="<?php echo $book_id[4] - $book_id[0]?>">
+                                                                <a data-toggle="blog-tags" data-placement="top" title="Delete Book" style="color: #eb4034" name="deleteBook">
+                                                                    <button name="deleteBook" style="background-color: transparent; padding: 0px 0px 0px 0px"><i class="fa fa-trash" style="color: red"></i></button>
+                                                                </a>
+                                                            </form>
                                                         </li>
                                                         <li>
-                                                            <a data-toggle="blog-tags" data-placement="top" title="Delete Author">
-                                                                <i class="fa fa-user-times"></i>
-                                                            </a>
+                                                            <form method="post">
+                                                                <input name="AuthorName" style="display: None" value="<?php echo $author_name[1]?>">
+                                                                <a data-toggle="blog-tags" data-placement="top" title="Delete Author" style="color: #eb4034" name="deleteAuthor">
+                                                                    <button name="deleteAuthor" style="background-color: transparent; padding: 0px 0px 0px 0px"><i class="fa fa-user-times" style="color: red"></i></button>
+                                                                </a>
+                                                            </form>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -547,24 +599,31 @@
                                                 <div class="actions">
                                                     <ul>
                                                         <li>
-                                                            <a onclick="showEditBook()" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit book">
-                                                                <i class="fa fa-book"></i>
+                                                            <a onclick="showEditBook('<?php echo $book_name[5]?>', '<?php echo $year[5]?>', '<?php echo $genre[5]?>', '<?php echo $age_group[5]?>', '<?php echo $book_id[4]?>')" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit book">
+                                                                <button name="deleteBook" style="background-color: transparent; padding: 0px 0px 0px 0px"><i class="fa fa-book" style="color: black"></i></button>
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a onclick="showEditAuthor()" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit Author">
-                                                                <i class="fa fa-user"></i>
+                                                            <a onclick="showEditAuthor('<?php echo $author_name[4]?>', '<?php echo $age[4]?>', '<?php echo $genre_author[4]?>', '<?php echo $book_id[4]?>')" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit Author">
+                                                                <button style="background-color: transparent; padding: 0px 0px 0px 0px"><i class="fa fa-user" style="color: black"></i></button>
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a data-toggle="blog-tags" data-placement="top" title="Delete Book">
-                                                                <i class="fa fa-trash"></i>
-                                                            </a>
+                                                            <form method="post">
+                                                                <input name="BookName" style="display: None" value="<?php echo $book_name[5]?>">
+                                                                <input name="id" style="display: None" value="<?php echo $book_id[4]?>">
+                                                                <a data-toggle="blog-tags" data-placement="top" title="Delete Book" style="color: #eb4034" name="deleteBook">
+                                                                    <button name="deleteBook" style="background-color: transparent; padding: 0px 0px 0px 0px"><i class="fa fa-trash" style="color: red"></i></button>
+                                                                </a>
+                                                            </form>
                                                         </li>
                                                         <li>
-                                                            <a data-toggle="blog-tags" data-placement="top" title="Delete Author">
-                                                                <i class="fa fa-user-times"></i>
-                                                            </a>
+                                                            <form method="post">
+                                                                <input name="AuthorName" style="display: None" value="<?php echo $author_name[4]?>">
+                                                                <a data-toggle="blog-tags" data-placement="top" title="Delete Author" style="color: #eb4034" name="deleteAuthor">
+                                                                    <button name="deleteAuthor" style="background-color: transparent; padding: 0px 0px 0px 0px"><i class="fa fa-user-times" style="color: red"></i></button>
+                                                                </a>
+                                                            </form>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -587,24 +646,31 @@
                                                 <div class="actions">
                                                     <ul>
                                                         <li>
-                                                            <a onclick="showEditBook()" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit book">
-                                                                <i class="fa fa-book"></i>
+                                                            <a onclick="showEditBook('<?php echo $book_name[6]?>', '<?php echo $year[6]?>', '<?php echo $genre[6]?>', '<?php echo $age_group[6]?>', '<?php echo $book_id[5]?>')" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit book">
+                                                                <button name="deleteBook" style="background-color: transparent; padding: 0px 0px 0px 0px"><i class="fa fa-book" style="color: black"></i></button>
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a onclick="showEditAuthor()" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit Author">
-                                                                <i class="fa fa-user"></i>
+                                                            <a onclick="showEditAuthor('<?php echo $author_name[5]?>', '<?php echo $age[5]?>', '<?php echo $genre_author[5]?>', '<?php echo $book_id[5]?>')" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit Author">
+                                                                <button style="background-color: transparent; padding: 0px 0px 0px 0px"><i class="fa fa-user" style="color: black"></i></button>
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a data-toggle="blog-tags" data-placement="top" title="Delete Book">
-                                                                <i class="fa fa-trash"></i>
-                                                            </a>
+                                                            <form method="post">
+                                                                <input name="BookName" style="display: None" value="<?php echo $book_name[6]?>">
+                                                                <input name="id" style="display: None" value="<?php echo $book_id[5]?>">
+                                                                <a data-toggle="blog-tags" data-placement="top" title="Delete Book" style="color: #eb4034" name="deleteBook">
+                                                                    <button name="deleteBook" style="background-color: transparent; padding: 0px 0px 0px 0px"><i class="fa fa-trash" style="color: red"></i></button>
+                                                                </a>
+                                                            </form>
                                                         </li>
                                                         <li>
-                                                            <a data-toggle="blog-tags" data-placement="top" title="Delete Author">
-                                                                <i class="fa fa-user-times"></i>
-                                                            </a>
+                                                            <form method="post">
+                                                                <input name="AuthorName" style="display: None" value="<?php echo $author_name[5]?>">
+                                                                <a data-toggle="blog-tags" data-placement="top" title="Delete Author" style="color: #eb4034" name="deleteAuthor">
+                                                                    <button name="deleteAuthor" style="background-color: transparent; padding: 0px 0px 0px 0px"><i class="fa fa-user-times" style="color: red"></i></button>
+                                                                </a>
+                                                            </form>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -627,24 +693,31 @@
                                                 <div class="actions">
                                                     <ul>
                                                         <li>
-                                                            <a onclick="showEditBook()" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit book">
-                                                                <i class="fa fa-book"></i>
+                                                            <a onclick="showEditBook('<?php echo $book_name[7]?>', '<?php echo $year[7]?>', '<?php echo $genre[7]?>', '<?php echo $age_group[7]?>', '<?php echo $book_id[6]?>')" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit book">
+                                                                <button name="deleteBook" style="background-color: transparent; padding: 0px 0px 0px 0px"><i class="fa fa-book" style="color: black"></i></button>
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a onclick="showEditAuthor()" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit Author">
-                                                                <i class="fa fa-user"></i>
+                                                            <a onclick="showEditAuthor('<?php echo $author_name[6]?>', '<?php echo $age[6]?>', '<?php echo $genre_author[6]?>', '<?php echo $book_id[6]?>')" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit Author">
+                                                                <button style="background-color: transparent; padding: 0px 0px 0px 0px"><i class="fa fa-user" style="color: black"></i></button>
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a data-toggle="blog-tags" data-placement="top" title="Delete Book">
-                                                                <i class="fa fa-trash"></i>
-                                                            </a>
+                                                            <form method="post">
+                                                                <input name="BookName" style="display: None" value="<?php echo $book_name[7]?>">
+                                                                <input name="id" style="display: None" value="<?php echo $book_id[6]?>">
+                                                                <a data-toggle="blog-tags" data-placement="top" title="Delete Book" style="color: #eb4034" name="deleteBook">
+                                                                    <button name="deleteBook" style="background-color: transparent; padding: 0px 0px 0px 0px"><i class="fa fa-trash" style="color: red"></i></button>
+                                                                </a>
+                                                            </form>
                                                         </li>
                                                         <li>
-                                                            <a data-toggle="blog-tags" data-placement="top" title="Delete Author">
-                                                                <i class="fa fa-user-times"></i>
-                                                            </a>
+                                                            <form method="post">
+                                                                <input name="AuthorName" style="display: None" value="<?php echo $author_name[6]?>">
+                                                                <a data-toggle="blog-tags" data-placement="top" title="Delete Author" style="color: #eb4034" name="deleteAuthor">
+                                                                    <button name="deleteAuthor" style="background-color: transparent; padding: 0px 0px 0px 0px"><i class="fa fa-user-times" style="color: red"></i></button>
+                                                                </a>
+                                                            </form>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -667,24 +740,31 @@
                                                 <div class="actions">
                                                     <ul>
                                                         <li>
-                                                            <a onclick="showEditBook()" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit book">
-                                                                <i class="fa fa-book"></i>
+                                                            <a onclick="showEditBook('<?php echo $book_name[8]?>', '<?php echo $year[8]?>', '<?php echo $genre[8]?>', '<?php echo $age_group[8]?>', '<?php echo $book_id[7]?>')" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit book">
+                                                                <button name="deleteBook" style="background-color: transparent; padding: 0px 0px 0px 0px"><i class="fa fa-book" style="color: black"></i></button>
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a onclick="showEditAuthor()" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit Author">
-                                                                <i class="fa fa-user"></i>
+                                                            <a onclick="showEditAuthor('<?php echo $author_name[7]?>', '<?php echo $age[7]?>', '<?php echo $genre_author[7]?>', '<?php echo $book_id[7]?>')" href="#content" data-toggle="blog-tags" data-placement="top" title="Edit Author">
+                                                                <button style="background-color: transparent; padding: 0px 0px 0px 0px"><i class="fa fa-user" style="color: black"></i></button>
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a data-toggle="blog-tags" data-placement="top" title="Delete Book">
-                                                                <i class="fa fa-trash"></i>
-                                                            </a>
+                                                            <form method="post">
+                                                                <input name="BookName" style="display: None" value="<?php echo $book_name[8]?>">
+                                                                <input name="id" style="display: None" value="<?php echo $book_id[7]?>">
+                                                                <a data-toggle="blog-tags" data-placement="top" title="Delete Book" style="color: #eb4034" name="deleteBook">
+                                                                    <button name="deleteBook" style="background-color: transparent; padding: 0px 0px 0px 0px"><i class="fa fa-trash" style="color: red"></i></button>
+                                                                </a>
+                                                            </form>
                                                         </li>
                                                         <li>
-                                                            <a data-toggle="blog-tags" data-placement="top" title="Delete Author">
-                                                                <i class="fa fa-user-times"></i>
-                                                            </a>
+                                                            <form method="post">
+                                                                <input name="AuthorName" style="display: None" value="<?php echo $author_name[7]?>">
+                                                                <a data-toggle="blog-tags" data-placement="top" title="Delete Author" style="color: #eb4034" name="deleteAuthor">
+                                                                    <button name="deleteAuthor" style="background-color: transparent; padding: 0px 0px 0px 0px"><i class="fa fa-user-times" style="color: red"></i></button>
+                                                                </a>
+                                                            </form>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -804,6 +884,55 @@
         VALUES ('$name', '$age', '$genre', '$bookID')";
         if ($conn->query($sql) === TRUE) {
             echo "New Author has been successfully created";
+        } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
+    }
+    if(isset($_POST["deleteBook"])){
+        $delName = $_POST['BookName'];
+        $id = $_POST['id'];
+        $sql = "UPDATE authors SET book_id = NULL WHERE book_id =$id;";
+        $sql2 = "DELETE FROM books WHERE book_name ='".$delName."';";
+        if ($conn->query($sql) === FALSE) {
+            echo "Error: " . $sql . "<br>" . $conn->error . "<br>";
+        }
+        if ($conn->query($sql2) === TRUE) {
+            echo "Book has been successfully deleted";
+        } else {
+            echo "Error: " . $sql2 . "<br>" . $conn->error;
+        }
+    }
+    if(isset($_POST["deleteAuthor"])){
+        $delAuthor = $_POST['AuthorName'];
+        $sql = "DELETE FROM authors WHERE author_name ='".$delAuthor."';";
+        if ($conn->query($sql) === TRUE) {
+            echo "Author has been successfully deleted";
+        } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
+    }
+    if(isset($_POST["editBook"])){
+        $book_id = $_POST['Book_ID_update'];
+        $addBook = $_POST['Book_name_update'];
+        $addYear = $_POST['Year_Published_update'];
+        $addGenre = $_POST['Genre_update'];
+        $addGroup = $_POST['Age_Group_update'];
+        $sql = "UPDATE books SET book_name = '".$addBook."', year = '".$addYear."', genre = '".$addGenre."', age_group = '".$addGroup."' WHERE book_id = '".$book_id."';";
+        if ($conn->query($sql) === TRUE) {
+            echo "Book has been successfully updated";
+        } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
+    }
+    if(isset($_POST["editAuthor"])){
+        $AuthName = $_POST['Author_Name_const'];
+        $addAuthName = $_POST['Author_Name_update'];
+        $addAuthAge = $_POST['Author_Age_update'];
+        $addAuthGenre = $_POST['Author_Genre_update'];
+        $addBookID = $_POST['Book_ID_update_Auth'];
+        $sql = "UPDATE authors SET author_name = '".$addAuthName."', age = '".$addAuthAge."', genre = '".$addAuthGenre."', book_id = '".$addBookID."' WHERE author_name = '".$AuthName."';";
+        if ($conn->query($sql) === TRUE) {
+            echo "Author has been successfully updated";
         } else {
             echo "Error: " . $sql . "<br>" . $conn->error;
         }
