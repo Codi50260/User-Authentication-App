@@ -31,7 +31,7 @@ $_SESSION['boolen'] = FALSE;
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	
-	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+	<link rel="icon" type="image/png" href="images/icons/img.jpg"/>
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
 <!--===============================================================================================-->
@@ -53,7 +53,7 @@ $_SESSION['boolen'] = FALSE;
 		<div class="container-login100">
 			<div class="wrap-login100">
 				<div class="login100-pic js-tilt" data-tilt>
-					<img src="images/img-01.png" alt="IMG">
+					<img src="images/front_image.jpg" alt="IMG">
 				</div>
 
 				<form class="login100-form validate-form" method="post" id="form" name="search-theme-form">

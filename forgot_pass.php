@@ -31,7 +31,7 @@ $_SESSION['forgotHasPost'] = True;
 		<div class="container-login100">
 			<div class="wrap-login100">
 				<div class="login100-pic js-tilt" data-tilt>
-					<img src="images/img-01.png" alt="IMG">
+					<img src="images/front_image.jpg" alt="IMG">
 				</div>
 
 				<form class="login100-form validate-form" method="post" action="forgot_pass_reset.php">
