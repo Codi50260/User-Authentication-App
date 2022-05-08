@@ -18,7 +18,7 @@
 
 Have a search bar feature on this app that searches through the database, as such:
 
-•  Make sure that all users that have the role of a member, should not be able to search for an author and have the list of books by this author (which can only be found in the author's table). In other words, members should not be able to search for an author.
+✓  Make sure that all users that have the role of a member, should not be able to search for an author and have the list of books by this author (which can only be found in the author's table). In other words, members should not be able to search for an author.
 
 ✓  On the contrary, if a user role of librarian tries to search for an author, allow them to see the result of all the books by the same author.
 
